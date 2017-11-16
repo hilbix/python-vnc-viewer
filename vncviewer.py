@@ -102,7 +102,7 @@ MODIFIERS = {
     K_MENU:             rfb.KEY_Hyper_L,        #???
     #~ K_POWER:            rfb.
     #~ K_EURO:             rfb.
-}                        
+}
 
 
 class TextSprite(pygame.sprite.Sprite):
@@ -127,7 +127,7 @@ class TextSprite(pygame.sprite.Sprite):
 #~ class PyGameApp(pb.Referenceable, Game.Game):
 class PyGameApp:
     """Pygame main application"""
-    
+
     def __init__(self):
         width, height = 640, 480
         self.setRFBSize(width, height)
@@ -142,7 +142,7 @@ class PyGameApp:
         self.sprites.add(self.statustext)
         self.buttons = 0
         self.protocol = None
-        
+
     def setRFBSize(self, width, height, depth=32):
         """change screen size"""
         self.width, self.height = width, height
@@ -220,7 +220,7 @@ class PyGameApp:
         return not seen_events
 
     def mainloop(self, dum=None):
-        """gui 'mainloop', it is called repeated by twisteds mainloop 
+        """gui 'mainloop', it is called repeated by twisteds mainloop
            by using callLater"""
         #~ self.clock.tick()
         no_work = self.checkEvents()
@@ -228,18 +228,18 @@ class PyGameApp:
         #~ self.sprites.clear(self.screen, self.background)
         #~ dirty = self.sprites.draw(self.screen)
         #~ pygame.display.update(dirty)
-        
+
         #~ self.statustext.update("iteration %d" % self.loopcounter)
         #~ self.loopcounter += 1
-        
+
         #~ pygame.display.flip()
-        
+
         if self.alive:
             #~ d = defer.Deferred()
             #~ d.addCallback(self.mainloop)
             #~ d.callback(None)
             reactor.callLater(no_work and 0.020, self.mainloop)
-    
+
     #~ def error(self):
         #~ log.msg('error, stopping reactor')
         #~ reactor.stop()
@@ -249,7 +249,7 @@ class PyGameApp:
 
 class RFBToGUI(rfb.RFBClient):
     """RFBClient protocol that talks to the GUI app"""
-    
+
     def vncConnectionMade(self):
         """choose appropriate color depth, resize screen"""
         #~ print "Screen format: depth=%d bytes_per_pixel=%r" % (self.depth, self.bpp)
@@ -274,7 +274,7 @@ class RFBToGUI(rfb.RFBClient):
             screen = pygame.display.set_mode((220,40))
             screen.fill((255,100,0)) #redish bg
             self.sendPassword(inputbox.ask(screen, "Password", password=1))
-    
+
     #~ def beginUpdate(self):
         #~ """start with a new series of display updates"""
 
@@ -347,7 +347,7 @@ class RFBToGUIeightbits(RFBToGUI):
 
 class VNCFactory(rfb.RFBFactory):
     """A factory for remote frame buffer connections."""
-    
+
     def __init__(self, remoteframebuffer, depth, fast, *args, **kwargs):
         rfb.RFBFactory.__init__(self, *args, **kwargs)
         self.remoteframebuffer = remoteframebuffer
@@ -357,7 +357,7 @@ class VNCFactory(rfb.RFBFactory):
             self.protocol = RFBToGUIeightbits
         else:
             raise ValueError, "color depth not supported"
-            
+
         if fast:
             self.encodings = [
                 rfb.COPY_RECTANGLE_ENCODING,
@@ -423,10 +423,10 @@ def main():
     if o.opts['outfile']:
         logFile = o.opts['outfile']
     log.startLogging(logFile)
-    
+
     pygame.init()
     remoteframebuffer = PyGameApp()
-    
+
     #~ from twisted.python import threadable
     #~ threadable.init()
     #~ reactor.callInThread(eventcollector)
