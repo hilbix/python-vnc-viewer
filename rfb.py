@@ -149,7 +149,7 @@ class RFBClient(Protocol):
         else:
             log.msg("unknown auth response (%d)\n" % auth)
 
-    def _handleConnFailed(self):
+    def _handleConnFailed(self, block):
         (waitfor,) = unpack("!I", block)
         self.expect(self._handleConnMessage, waitfor)
 
