@@ -1,3 +1,6 @@
+> This is an unofficial and patched clone from
+> https://github.com/techtonik/python-vnc-viewer
+
 Simple VNC viewer that is built with
 [Twisted-Python](https://twistedmatrix.com/trac/) and
 [PyGame](http://www.pygame.org/). Originally written by
