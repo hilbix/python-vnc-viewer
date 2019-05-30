@@ -127,7 +127,8 @@ class RFBClient(Protocol):
                     self.transport.loseConnection()
             buffer = buffer[12:]
             self.transport.write('RFB 003.003\n')
-            log.msg("connected\n")
+            # Unfortunately RFB 003.003 cannot handle remote screen resize
+            log.msg("connected using RFB 003.003, remote RFB %03d.%03d\n" % (maj, min))
             self._packet[:] = [buffer]
             self._packet_len = len(buffer)
             self._handler = self._handleExpected
@@ -195,6 +196,7 @@ class RFBClient(Protocol):
            unpack("!BBBBHHHBBBxxx", pixformat)
         self.bypp = self.bpp / 8        #calc bytes per pixel
         self.expect(self._handleServerName, namelen)
+        log.msg("size %dx%d" % (self.width, self.height))
 
     def _handleServerName(self, block):
         self.name = block
